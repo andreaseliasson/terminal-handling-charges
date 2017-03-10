@@ -1,0 +1,15 @@
+{
+  "name": "terminal-handling-charges",
+  "version": "1.0.0",
+  "description": "Frontend for terminal handling charges anomaly detection system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node node_modules/.bin/http-server"
+  },
+  "author": "Andreas Eliasson",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^0.9.0"
+  }
+}
