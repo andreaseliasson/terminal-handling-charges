@@ -1,6 +1,7 @@
 import requests
 import json
 from read_json import load_json
+import copy
 
 
 def get_unique_currencies(charges_list):
@@ -34,8 +35,15 @@ def get_currency_exchange_rates_from_file(file_name):
     return currency_rates
 
 
-def normalize_currencies(charges, currency_rates):
-    normalized_charges = [charge['value'] / currency_rates[charge['currency']]
-                          for charge in charges if charge['currency'] != 'USD']
-    print(normalized_charges[:3])  # Testing purposes
+def normalize_charges(charges, currency_rates):
+    normalized_charges = []
+    for charge in charges:
+        if charge['currency'] != 'USD':
+            normalized_charge = copy.deepcopy(charge)
+            normalized_charge['value'] = charge['value'] / currency_rates[charge['currency']]
+            normalized_charges.append(normalized_charge)
+        else:
+            normalized_charges.append(charge)
+    print('normalized charges')
+    print(normalized_charges[:3])
     return normalized_charges
