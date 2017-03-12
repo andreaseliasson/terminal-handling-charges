@@ -12,7 +12,7 @@ def compare_outlier_methods(charges, country_codes):
         values = np.array(country_charges['value'])
 
         # Add three outliers for testing purposes
-        values = np.r_[values, -3, -10, 1000]
+        # values = np.r_[values, -3, -10, 1000]
         plot(values, country_code)
     plt.show()
 
@@ -49,3 +49,8 @@ def plot(values, country_code):
     axes[0].set_title('Percentile-based Outliers', **kwargs)
     axes[1].set_title('MAD-based Outliers', **kwargs)
     fig.suptitle('Comparing Outlier Tests for {} with n={} samples'.format(country_code, len(values)), size=14)
+
+
+def get_outliers(values):
+    outliers = values[percentile_based_outlier(values)]
+    return outliers
