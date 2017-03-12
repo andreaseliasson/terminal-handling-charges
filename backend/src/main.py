@@ -1,5 +1,5 @@
 from flask import Flask
-from read_json import load_json
+from helper import load_json, get_2_letter_country_codes
 from normalize_currency import (get_unique_currencies,
                                 get_currency_exchange_rates_from_api,
                                 get_currency_exchange_rates_from_file,
@@ -28,8 +28,6 @@ if __name__ == "__main__":
     # rates = get_currency_exchange_rates_from_api(unique_currencies)
     currency_rates = get_currency_exchange_rates_from_file('../data/currency_rates.json')
     normalized_charges = normalize_charges(charges, currency_rates)
-    print('original charges')
-    print(charges[:3])
 
     # Distribution and outliers
-    compare_outlier_methods(normalized_charges)
+    compare_outlier_methods(normalized_charges, get_2_letter_country_codes(charges))

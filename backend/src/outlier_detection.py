@@ -4,16 +4,16 @@ import seaborn as sns
 import pandas as pd
 
 
-def compare_outlier_methods(charges):
+def compare_outlier_methods(charges, country_codes):
+    # Convert to pandas data frame for easier filtering
     charges_df = pd.DataFrame(charges)
-    country = charges_df.loc[charges_df['currency'] == 'USD']
-    values = np.array(country['value'])
+    for country_code in country_codes:
+        country_charges = charges_df[charges_df['port'].str.contains(r'^' + country_code)]
+        values = np.array(country_charges['value'])
 
-    # Add three outliers for testing purposes
-    values = np.r_[values, -3, -10, 1000]
-    print(values)
-    plot(values)
-
+        # Add three outliers for testing purposes
+        values = np.r_[values, -3, -10, 1000]
+        plot(values, country_code)
     plt.show()
 
 
@@ -38,17 +38,14 @@ def percentile_based_outlier(data, threshold=97.5):
     return (data < min_val) | (data > max_val)
 
 
-def plot(values):
+def plot(values, country_code):
     fig, axes = plt.subplots(nrows=2)
     for ax, func in zip(axes, [percentile_based_outlier, mad_based_outlier]):
         sns.distplot(values, ax=ax, rug=True, hist=False)
-        print(func(values))
         outliers = values[func(values)]
-        print('outliers')
-        print(outliers)
         ax.plot(outliers, np.zeros_like(outliers), 'ro', clip_on=False)
 
     kwargs = dict(y=0.95, x=0.05, ha='left', va='top')
     axes[0].set_title('Percentile-based Outliers', **kwargs)
     axes[1].set_title('MAD-based Outliers', **kwargs)
-    fig.suptitle('Comparing Outlier Tests with n={}'.format(len(values)), size=14)
+    fig.suptitle('Comparing Outlier Tests for {} with n={} samples'.format(country_code, len(values)), size=14)
