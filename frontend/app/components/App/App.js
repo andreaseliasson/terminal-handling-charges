@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios"
+import KDEGraph from "../KDEGraph/KDEGraph";
+import styles from './app.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,7 +22,12 @@ class App extends React.Component {
   }
 
   render() {
-    return <h1>Anomaly Detection for terminal handling charges</h1>
+    return (
+      <div className={styles.app}>
+        <h1>Anomaly Detection for terminal handling charges</h1>
+        <KDEGraph countryCharges={this.state.terminalHandlingCharges}/>
+      </div>
+    );
   }
 }
 

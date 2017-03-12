@@ -1,1 +1,1 @@
-import App from "./app/components/App.js";
+import App from "./app/components/App/App.js";

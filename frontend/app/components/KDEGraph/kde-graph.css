@@ -1,0 +1,24 @@
+.line {
+  fill: none;
+  stroke: darkblue;
+  stroke-width: 1.5px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.y.axis path {
+  display: none;
+}
+
+.green {
+  color: darkgreen;
+}
+
+.kde-container {
+
+}
