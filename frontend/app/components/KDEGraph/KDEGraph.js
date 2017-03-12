@@ -7,12 +7,12 @@ class KDEGraph extends React.Component {
     super(props);
   }
 
-  render_graph(country_charges) {
+  draw_graph(country_charges, classIndex) {
     const charge_values = country_charges.values;
     const charge_outliers = country_charges.outliers;
 
 
-    const margin = {top: 20, right: 30, bottom: 30, left: 40};
+    const margin = {top: 40, right: 30, bottom: 50, left: 40};
     const width = 600 - margin.left - margin.right;
     const height = 300 - margin.top - margin.bottom;
 
@@ -31,7 +31,7 @@ class KDEGraph extends React.Component {
       .x(function(d) { return x(d[0]); })
       .y(function(d) { return y(d[1]); });
 
-    const svg = d3.select(".kde-container").append("svg")
+    const svg = d3.select(`.kde-container`).append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
@@ -45,6 +45,13 @@ class KDEGraph extends React.Component {
     svg.append("g")
       .attr("class", styles.y + styles.axis)
       .call(yAxis);
+
+    svg.append("text")
+      .attr("x", (width / 2))
+      .attr("y", 0 - (margin.top / 2))
+      .attr("text-anchor", "middle")
+      .attr("class", styles.title)
+      .text(`Distribution of Terminal Handling Charge values for ${country_charges.country_code}`);
 
     svg.selectAll(".charge-value")
       .data(charge_values)
@@ -72,6 +79,38 @@ class KDEGraph extends React.Component {
       .attr("class", styles.line)
       .attr("d", line);
 
+    // Add legend. For now we only have one element
+
+    const legendRectSize = 14;
+    const legendSpacing = 4;
+    const color = d3.scaleOrdinal()
+      .domain([""])
+      .range(["red"]);
+
+    const legend = svg.selectAll('.legend')
+      .data(color.domain())
+      .enter()
+      .append('g')
+      .attr('class', 'legend')
+      .attr('transform', function(d, i) {
+        const height = legendRectSize + legendSpacing;
+        const offset =  height * color.domain().length / 2;
+        const horz = 2 * legendRectSize;
+        const vert = 1.1 * height - offset;
+        return 'translate(' + horz + ',' + vert + ')';
+      });
+
+    legend.append('rect')
+      .attr('width', legendRectSize)
+      .attr('height', legendRectSize)
+      .style('fill', color);
+
+    legend.append('text')
+      .attr('x', legendRectSize + legendSpacing)
+      .attr('y', legendRectSize - legendSpacing + 1)
+      .text("Possible outliers");
+
+
     function kernelDensityEstimator(kernel, x) {
       return function(sample) {
         return x.map(function(x) {
@@ -95,7 +134,7 @@ class KDEGraph extends React.Component {
         {this.props.countryCharges.map((country, i) => {
           return (
             <div key={i}>
-              {this.render_graph(country)}
+              {this.draw_graph(country, i)}
             </div>
           )
         })}
