@@ -1,39 +1,47 @@
 import React from "react";
+import axios from "axios"
+import ChargeForm from "./ChargeForm";
 
 class Charge extends React.Component {
   constructor(props) {
     super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.baseUrl = "http://127.0.0.1:5000/";
+    this.state = {
+      "currency": "",
+      "supplier_id": "",
+      "port": "",
+      "value": ""
+    };
   }
 
-  onFieldChange(e) {
-    this.props.onChange(e.target);
+  handleChange({name, value}) {
+    this.setState({
+      [name]: value
+    });
   }
 
-  onSubmit(e) {
-    this.props.onSubmit(e)
+  handleSubmit(e) {
+    e.preventDefault();
+
+    axios.post(this.baseUrl + 'charge', this.state)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   render() {
-    console.log(this.props.fields);
     return (
-      <div className="charge">
-        <form onSubmit={this.onSubmit.bind(this)}>
-          {this.props.fields.map((field, i) => {
-            return (
-              <div key={i}>
-                <label>
-                  {field}
-                  <input
-                    type="text"
-                    name={field}
-                    value={this.props.fields[field]}
-                    onChange={this.onFieldChange.bind(this)}/>
-                </label>
-              </div>
-            )
-          })}
-          <input type="submit" value="Submit"/>
-        </form>
+      <div>
+        <ChargeForm
+          fields={Object.keys(this.state)}
+          onChange={this.handleChange.bind(this)}
+          onSubmit={this.handleSubmit.bind(this)}
+        />
       </div>
     );
   }
