@@ -1,3 +1,7 @@
+svg {
+  display: block;
+}
+
 .line {
   fill: none;
   stroke: darkblue;
@@ -19,8 +23,9 @@
   color: darkgreen;
 }
 
-.kde-container {
-
+.graphWrapper {
+  width: 50%;
+  float: left;
 }
 
 .title {

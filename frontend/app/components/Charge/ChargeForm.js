@@ -15,16 +15,16 @@ class ChargeForm extends React.Component {
   }
 
   render() {
-    console.log(this.props.fields);
     return (
       <div className="charge">
-        <form onSubmit={this.onSubmit.bind(this)}>
+        <form onSubmit={this.onSubmit.bind(this)} className={styles.chargeForm}>
           {this.props.fields.map((field, i) => {
             return (
               <div key={i}>
                 <label>
                   {field}
                   <input
+                    className={styles.formInput}
                     type="text"
                     name={field}
                     value={this.props.fields[field]}
@@ -33,13 +33,14 @@ class ChargeForm extends React.Component {
               </div>
             )
           })}
-          <input type="submit" value="Submit"/>
+          <input className={styles.btn} type="submit" value="Submit new Charge"/>
+          {/*Slightly obscure predicate but reason is outlier takes on values 0 and 1*/}
+          {this.props.outlier !== ""  &&
+            <p>Status: {this.props.outlier ?
+              (<b className={styles.red}>Outlier</b>)
+              : (<b className={styles.green}>OK</b>)}</p>
+          }
         </form>
-        {this.props.outlier &&
-          <p>Status: {this.props.outlier ?
-            (<b className={styles.red}>Outlier</b>)
-            : (<b className={styles.green}>OK</b>)}</p>
-        }
       </div>
     );
   }

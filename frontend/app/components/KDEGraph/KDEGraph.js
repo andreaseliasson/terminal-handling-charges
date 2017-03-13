@@ -7,7 +7,7 @@ class KDEGraph extends React.Component {
     super(props);
   }
 
-  draw_graph(country_charges, classIndex) {
+  draw_graph(country_charges) {
     const charge_values = country_charges.values;
     const charge_outliers = country_charges.outliers;
 
@@ -129,15 +129,17 @@ class KDEGraph extends React.Component {
 
   render() {
     return (
-      <div className="kde-container">
-        <h2>Kernel Density Estimation Graphs</h2>
-        {this.props.countryCharges.map((country, i) => {
-          return (
-            <div key={i}>
-              {this.draw_graph(country, i)}
-            </div>
-          )
-        })}
+      <div className={styles.graphWrapper}>
+        <div className="kde-container">
+          <h2>Kernel Density Estimation Graphs</h2>
+          {this.props.countryCharges.map((country, i) => {
+            return (
+              <div key={i}>
+                {this.draw_graph(country, i)}
+              </div>
+            )
+          })}
+        </div>
       </div>
     );
   }

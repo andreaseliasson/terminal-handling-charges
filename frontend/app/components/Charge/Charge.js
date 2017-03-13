@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios"
 import ChargeForm from "./ChargeForm";
+import styles from "./charge-form.css"
 
 class Charge extends React.Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class Charge extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.charge}>
         <ChargeForm
           fields={Object.keys(this.state).filter(prop => prop !== "outlier")}
           outlier={this.state.outlier}

@@ -25,7 +25,7 @@ class App extends React.Component {
   render() {
     return (
       <div className={styles.app}>
-        <h1>Anomaly Detection for terminal handling charges</h1>
+        <h1>Anomaly Detection for Terminal Handling Charges</h1>
         <KDEGraph countryCharges={this.state.terminalHandlingCharges}/>
         <Charge/>
       </div>
