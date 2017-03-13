@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./charge-form.css"
 
 class ChargeForm extends React.Component {
   constructor(props) {
@@ -34,6 +35,11 @@ class ChargeForm extends React.Component {
           })}
           <input type="submit" value="Submit"/>
         </form>
+        {this.props.outlier &&
+          <p>Status: {this.props.outlier ?
+            (<b className={styles.red}>Outlier</b>)
+            : (<b className={styles.green}>OK</b>)}</p>
+        }
       </div>
     );
   }

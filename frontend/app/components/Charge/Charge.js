@@ -12,7 +12,8 @@ class Charge extends React.Component {
       "currency": "",
       "supplier_id": "",
       "port": "",
-      "value": ""
+      "value": "",
+      "outlier": ""
     };
   }
 
@@ -27,7 +28,7 @@ class Charge extends React.Component {
 
     axios.post(this.baseUrl + 'charge', this.state)
       .then(response => {
-        console.log(response);
+        this.setState({outlier: response.data.outlier});
       })
       .catch(error => {
         console.log(error);
@@ -38,7 +39,8 @@ class Charge extends React.Component {
     return (
       <div>
         <ChargeForm
-          fields={Object.keys(this.state)}
+          fields={Object.keys(this.state).filter(prop => prop !== "outlier")}
+          outlier={this.state.outlier}
           onChange={this.handleChange.bind(this)}
           onSubmit={this.handleSubmit.bind(this)}
         />
