@@ -46,15 +46,15 @@ def is_outlier(sample_charges, new_charge):
     sample_values = np.array(country_charges['value'])
 
     # Append new charge value
-    values = np.append(sample_values, [float(new_charge['value'])])
+    values = np.append(sample_values, [new_charge['value']])
 
     # Check if last charge that we just appended is an outlier
     return percentile_based_outlier(values)[-1]
 
 
-def save_new_charge(acc_charges, new_charge):
+def save_new_charge(sample_charges, acc_charges, new_charge):
     # Add new property indicating whether or not the new charge is an outlier or not
-    new_charge['outlier'] = int(is_outlier(acc_charges, new_charge))
+    new_charge['outlier'] = int(is_outlier(sample_charges, new_charge))
     acc_charges.append(new_charge)
 
     # Dump list of dicts to a .json file for later references
