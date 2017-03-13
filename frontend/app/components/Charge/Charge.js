@@ -9,11 +9,15 @@ class Charge extends React.Component {
     this.props.onChange(e.target);
   }
 
+  onSubmit(e) {
+    this.props.onSubmit(e)
+  }
+
   render() {
     console.log(this.props.fields);
     return (
       <div className="charge">
-        <form>
+        <form onSubmit={this.onSubmit.bind(this)}>
           {this.props.fields.map((field, i) => {
             return (
               <div key={i}>

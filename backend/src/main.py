@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import jsonify
+from flask import request
 from helper import load_json, get_2_letter_country_codes, get_country_charges_with_outliers
 from normalize_currency import (get_unique_currencies,
                                 get_currency_exchange_rates_from_api,
@@ -18,6 +19,11 @@ def start():
     country_charges = get_country_charges_with_outliers(normalized_charges, get_2_letter_country_codes(charges))
 
     return jsonify(country_charges)
+
+
+@app.route('/charge', methods=['POST'])
+def submit_new_charge():
+    return "posting"
 
 
 @app.after_request

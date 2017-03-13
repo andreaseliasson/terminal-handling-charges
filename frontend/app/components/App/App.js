@@ -10,6 +10,7 @@ class App extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.baseUrl = "http://127.0.0.1:5000/";
     this.state = {
       terminalHandlingCharges: [],
       newCharge: {
@@ -22,7 +23,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("http://127.0.0.1:5000/")
+    axios.get(this.baseUrl)
       .then(res => {
         const terminalHandlingCharges = res.data;
         this.setState({ terminalHandlingCharges });
@@ -30,20 +31,22 @@ class App extends React.Component {
   }
 
   handleChange({name, value}) {
-    this.setState({
-     [name]: value
-    });
+    // This could be solved more elegantly with _.extend to limit immutability
+    let newState = this.state.newCharge;
+    newState[name] = value;
+    this.setState({newCharge: newState});
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    // Make a post request to the API here
-    const newCharge = {
-      text: this.state.newCharge
-    };
-    this.setState((prevState) => ({
-      newCharge: ""
-    }));
+
+    axios.post(this.baseUrl + 'charge', this.state.newCharge)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -51,7 +54,11 @@ class App extends React.Component {
       <div className={styles.app}>
         <h1>Anomaly Detection for terminal handling charges</h1>
         <KDEGraph countryCharges={this.state.terminalHandlingCharges}/>
-        <Charge fields={Object.keys(this.state.newCharge)} onChange={this.handleChange.bind(this)}/>
+        <Charge
+          fields={Object.keys(this.state.newCharge)}
+          onChange={this.handleChange.bind(this)}
+          onSubmit={this.handleSubmit.bind(this)}
+        />
       </div>
     );
   }
