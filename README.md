@@ -18,3 +18,6 @@ This application checks for outliers in a sample of terminal handling charges us
 1.  `cd frontend`
 2.  `npm install`
 3.  `npm start`
+
+### Example imgages
+![Alt text](/../graph-images/backend/img/cn_kde.png?raw=true "Optional Title")
