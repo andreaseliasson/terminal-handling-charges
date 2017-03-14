@@ -38,7 +38,7 @@ class Charge extends React.Component {
 
   render() {
     return (
-      <div className={styles.charge}>
+      <div className="col-sm-offset-1 col-sm-4">
         <ChargeForm
           fields={Object.keys(this.state).filter(prop => prop !== "outlier")}
           outlier={this.state.outlier}

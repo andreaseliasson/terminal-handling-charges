@@ -16,31 +16,35 @@ class ChargeForm extends React.Component {
 
   render() {
     return (
-      <div className="charge">
-        <form onSubmit={this.onSubmit.bind(this)} className={styles.chargeForm}>
+      <div className={styles.border}>
+        <h4>Submit new Charge</h4>
+        <form onSubmit={this.onSubmit.bind(this)} className="form-horizontal">
           {this.props.fields.map((field, i) => {
             return (
-              <div key={i}>
-                <label>
+              <div key={i} className="form-group">
+                <label className="col-sm-2 control-label">
                   {field}
+                </label>
+                <div className="col-sm-offset-1 col-sm-9">
                   <input
-                    className={styles.formInput}
                     type="text"
                     name={field}
+                    className="form-control"
                     value={this.props.fields[field]}
                     onChange={this.onFieldChange.bind(this)}/>
-                </label>
+
+                </div>
               </div>
             )
           })}
-          <input className={styles.btn} type="submit" value="Submit new Charge"/>
-          {/* Slightly obscure predicate but reason is outlier takes on values 0 and 1 */}
-          {this.props.outlier !== ""  &&
-            <p>Status: {this.props.outlier ?
-              (<b className={styles.red}>Outlier</b>)
-              : (<b className={styles.green}>OK</b>)}</p>
-          }
+          <input className="btn btn-primary" type="submit" value="Submit new Charge" />
         </form>
+        {/* Slightly obscure predicate but reason is outlier takes on values 0 and 1 */}
+        {this.props.outlier !== ""  &&
+          <p>Status: {this.props.outlier ?
+            (<b className={styles.red}>Outlier</b>)
+            : (<b className={styles.green}>OK</b>)}</p>
+        }
       </div>
     );
   }
