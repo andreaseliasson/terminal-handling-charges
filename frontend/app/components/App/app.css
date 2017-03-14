@@ -1,9 +1,4 @@
-.app {
-  margin: 30px;
-  width: 100%;
-  font-family: "Times New Roman", Georgia, Serif;
-}
-
-h1, h2 {
+h1 {
   text-align: center;
+  margin-bottom: 50px;
 }
