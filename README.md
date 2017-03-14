@@ -1,6 +1,6 @@
 # Anomaly/Outlier Detection for Terminal Handling Charges
 
-This application checks for outliers in a sample of terminal handling charges using the value property (a floating point number). The check is made on a per-country basis and all the values have been normalized to USD. Given that we are dealing with an unlabeled data set and that the distribution is not perfectly normally distributed, we are using a percentile based and a median absolute deviation based algorithm to detect potential outliers. Somewhat naively, we are using the same algorithm to check if a new observation is an outlier or not. This works for now, but another approach using the likelihood function and the probability density function together with cross-validation is under development (need a little bit more time on this one).
+This application checks for outliers in a sample of terminal handling charges using the value property (a floating point number). The check is made on a per-country basis and all the values have been normalized to USD. Given that we are dealing with an unlabeled data set and that the distribution is not perfectly normally distributed, we can use a percentile based and a median absolute deviation based algorithm to detect potential outliers. Somewhat naively, we can use the same algorithm to check if a new observation is an outlier or not. This works for now, but another approach using likelihood and the probability density function together with cross-validation is under development (need a little bit more time on this one).
 
 ## How to run the application
 
@@ -19,5 +19,10 @@ This application checks for outliers in a sample of terminal handling charges us
 2.  `npm install`
 3.  `npm start`
 
-### Example imgages
+### Output images from running the comparison function inside
+```
+./backend/src/outlier_detection.py
+```
 ![Alt text](/../graph-images/backend/img/cn_kde.png?raw=true "Optional Title")
+![Alt text](/../graph-images/backend/img/us_kde.png?raw=true "Optional Title")
+![Alt text](/../graph-images/backend/img/hk_kde.png?raw=true "Optional Title")
