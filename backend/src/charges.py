@@ -13,6 +13,12 @@ def get_2_letter_country_codes(charges):
 
 
 def get_country_charges_with_outliers(charges, country_codes):
+    """
+    Gets charges per country
+    :param charges: the original sample charges
+    :param country_codes: the set of unique job 2-letter country codes
+    :return: list of charges with their country code, values and outliers
+    """
     charges_df = pd.DataFrame(charges)
 
     accumulated_country_charges = []
@@ -26,9 +32,15 @@ def get_country_charges_with_outliers(charges, country_codes):
     return accumulated_country_charges
 
 
-# Naive way of re-using the existing logic to check for outliers with new charge included
-# Not very efficient
 def is_outlier(sample_charges, new_charge):
+    """
+    Naive way of checking if a new charge is an outlier by using the same algorithm we did when checking
+    for the sample outliers. Based on exploring different outlier detection methods we will use the percentile
+    based algorithm.
+    :param sample_charges: the original sample charges
+    :param new_charge: a new charge to check
+    :return: Boolean indicating whether the new charge is an outlier
+    """
     charges_df = pd.DataFrame(sample_charges)
 
     country_charges = charges_df[charges_df['port'].str.contains(r'^' + new_charge['port'][:2])]
@@ -42,6 +54,12 @@ def is_outlier(sample_charges, new_charge):
 
 
 def save_new_charge(sample_charges, acc_charges, new_charge):
+    """
+    Save a new charge with a flag indicating if it's an outlier of it's ok (1 == outlier, 0 == ok).
+    :param sample_charges: the original sample charges
+    :param acc_charges: the accumulated charges to append the new charge to
+    :return: new charge as a dict
+    """
     # Add new property indicating whether or not the new charge is an outlier or not
     new_charge['outlier'] = int(is_outlier(sample_charges, new_charge))
     acc_charges.append(new_charge)
@@ -53,6 +71,11 @@ def save_new_charge(sample_charges, acc_charges, new_charge):
 
 
 def create_acc_charges(sample_charges):
+    """
+    Create accumulated charges to add new charges to. We wish to preserve the original sample charges.
+    :param sample_charges: the original sample charges
+    :return: the accumulated charges as deep copy of the original sample charges
+    """
     accumulated_charges = copy.deepcopy(sample_charges)
     dump_json(accumulated_charges, ACCUMULATED_CHARGES_OUTPUT)
     return accumulated_charges

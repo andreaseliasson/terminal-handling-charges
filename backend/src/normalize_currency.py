@@ -10,6 +10,13 @@ def get_unique_currencies(charges_list):
 
 
 def get_currency_exchange_rates_from_api(currencies, base_currency='USD'):
+    """
+    Get currency exchange rates from openexchange.com (https://docs.openexchangerates.org/).
+    Using USD as the base currency (The only option for the free version).
+    :param currencies: set of unique currencies in the sample charges
+    :param base_currency: default set to USD
+    :return: list of the exchange rates excluding USD
+    """
     params = {
         'app_id': '2190c26ff7a84a31ade9f7f57ddb33a8',
         'base': base_currency,
@@ -36,6 +43,12 @@ def get_currency_exchange_rates_from_file(file_name):
 
 
 def normalize_charges(charges, currency_rates):
+    """
+    Normalize every charge value to USD
+    :param charges: the sample charges
+    :param currency_rates: dict with currency rates against USD
+    :return: list of normalized charges
+    """
     normalized_charges = []
     for charge in charges:
         if charge['currency'] != 'USD':
@@ -44,6 +57,4 @@ def normalize_charges(charges, currency_rates):
             normalized_charges.append(normalized_charge)
         else:
             normalized_charges.append(charge)
-    print('normalized charges')
-    print(normalized_charges[:3])
     return normalized_charges

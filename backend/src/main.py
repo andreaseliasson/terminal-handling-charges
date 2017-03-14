@@ -2,7 +2,6 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 from helper import load_json
-from outlier_detection import compare_outlier_methods
 from charges import (get_2_letter_country_codes,
                      get_country_charges_with_outliers,
                      create_acc_charges,
@@ -31,6 +30,8 @@ def start():
 @app.route('/charge', methods=['POST'])
 def submit_new_charge():
     new_charge = request.json
+
+    # Convert to correct types
     new_charge['value'] = float(new_charge['value'])
     new_charge['supplier_id'] = int(new_charge['supplier_id'])
 
