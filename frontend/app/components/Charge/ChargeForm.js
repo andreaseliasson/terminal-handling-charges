@@ -34,7 +34,7 @@ class ChargeForm extends React.Component {
             )
           })}
           <input className={styles.btn} type="submit" value="Submit new Charge"/>
-          {/*Slightly obscure predicate but reason is outlier takes on values 0 and 1*/}
+          {/* Slightly obscure predicate but reason is outlier takes on values 0 and 1 */}
           {this.props.outlier !== ""  &&
             <p>Status: {this.props.outlier ?
               (<b className={styles.red}>Outlier</b>)
