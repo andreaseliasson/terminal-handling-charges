@@ -14,7 +14,7 @@ from normalize_currency import (get_unique_currencies,
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route('/')
 def start():
     charges = load_json('../data/sample_data.json')
 
