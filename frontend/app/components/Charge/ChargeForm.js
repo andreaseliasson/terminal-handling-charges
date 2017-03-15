@@ -32,7 +32,6 @@ class ChargeForm extends React.Component {
                     className="form-control"
                     value={this.props.fields[field]}
                     onChange={this.onFieldChange.bind(this)}/>
-
                 </div>
               </div>
             )

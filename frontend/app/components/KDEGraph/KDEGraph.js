@@ -122,7 +122,6 @@ class KDEGraph extends React.Component {
         return Math.abs(u /= scale) <= 1 ? .75 * (1 - u * u) / scale : 0;
       };
     }
-
   }
 
   render() {
