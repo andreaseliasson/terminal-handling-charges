@@ -42,7 +42,7 @@ def submit_new_charge():
     # Create an accumulator to hold new values as to not mutate the original sample data
     accumulated_charges = create_acc_charges(normalized_sample_charges)
 
-    saved_new_charge = save_new_charge(normalized_sample_charges, accumulated_charges, new_charge)
+    saved_new_charge = save_new_charge(normalized_sample_charges, accumulated_charges, new_charge, currency_rates)
 
     return jsonify(saved_new_charge)
 

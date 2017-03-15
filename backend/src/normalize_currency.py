@@ -58,3 +58,16 @@ def normalize_charges(charges, currency_rates):
         else:
             normalized_charges.append(charge)
     return normalized_charges
+
+
+def normalize_charge(charge, currency_rates):
+    """
+    Normalize single charge value to USD
+    :param charge: charge who's value to normalize
+    :param currency_rates: dict with currency rates against USD
+    :return: normalized charge
+    """
+    normalized_charge = copy.deepcopy(charge)
+    if charge['currency'] != 'USD':
+        normalized_charge['value'] = charge['value'] / currency_rates[charge['currency']]
+    return normalized_charge
