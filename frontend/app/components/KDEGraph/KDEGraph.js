@@ -128,7 +128,7 @@ class KDEGraph extends React.Component {
     return (
       <div className={"kde-container "  + "col-sm-7 " + styles.border}>
         <h4>Kernel Density Estimation Graphs</h4>
-        {!this.props.countryCharges.length && <p>Fetching Graphs...</p>}
+        {!this.props.countryCharges.length && <p>Crunching data...</p>}
         {this.props.countryCharges.map((country, i) => {
           return (
             <div key={i}>
