@@ -109,17 +109,11 @@ class KDEGraph extends React.Component {
 
 
     function kernelDensityEstimator(kernel, x) {
-      return (sample) => {
-        return x.map((x) => {
-          return [x, d3.mean(sample, (v) => kernel(x - v))];
-        });
-      };
+      return (sample) => x.map((x) => [x, d3.mean(sample, (v) => kernel(x - v))]);
     }
 
     function epanechnikovKernel(scale) {
-      return (u) => {
-        return Math.abs(u /= scale) <= 1 ? .75 * (1 - u * u) / scale : 0;
-      };
+      return (u) => Math.abs(u /= scale) <= 1 ? .75 * (1 - u * u) / scale : 0;
     }
   }
 
