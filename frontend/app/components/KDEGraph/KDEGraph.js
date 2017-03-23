@@ -20,7 +20,7 @@ class KDEGraph extends React.Component {
       .range([0, width]);
 
     const y = d3.scaleLinear()
-      .domain([0, .1])
+      .domain([0, 0.08])
       .range([height, 0]);
 
     const xAxis = d3.axisBottom(x);
@@ -82,37 +82,36 @@ class KDEGraph extends React.Component {
     const legendRectSize = 14;
     const legendSpacing = 4;
     const color = d3.scaleOrdinal()
-      .domain([""])
-      .range(["red"]);
+      .domain(["red"])
+      .range([0]);
 
-    const legend = svg.selectAll('.legend')
+    const legend = svg.selectAll(".legend")
       .data(color.domain())
       .enter()
-      .append('g')
-      .attr('class', 'legend')
-      .attr('transform', (d, i) => {
+      .append("g")
+      .attr("transform", () => {
         const height = legendRectSize + legendSpacing;
         const offset =  height * color.domain().length / 2;
-        const horz = 2 * legendRectSize;
-        const vert = 1.1 * height - offset;
-        return 'translate(' + horz + ',' + vert + ')';
+        const x = 2 * legendRectSize;
+        const y = 1.1 * height - offset;
+        return "translate(" + x + "," + y + ")";
       });
 
-    legend.append('rect')
-      .attr('width', legendRectSize)
-      .attr('height', legendRectSize)
-      .style('fill', color);
+    legend.append("rect")
+      .attr("width", legendRectSize)
+      .attr("height", legendRectSize)
+      .style("fill", (d) => d);
 
-    legend.append('text')
-      .attr('x', legendRectSize + legendSpacing)
-      .attr('y', legendRectSize - legendSpacing + 1)
+    legend.append("text")
+      .attr("x", legendRectSize + legendSpacing)
+      .attr("y", legendRectSize - legendSpacing + 2)
       .text("Possible outliers");
 
 
     function kernelDensityEstimator(kernel, x) {
       return (sample) => {
         return x.map((x) => {
-          return [x, d3.mean(sample, (v) => { return kernel(x - v); })];
+          return [x, d3.mean(sample, (v) => kernel(x - v))];
         });
       };
     }
