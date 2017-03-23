@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./kde-graph.css"
 import * as d3 from "d3";
+import addLegend from "./legend"
 
 class KDEGraph extends React.Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class KDEGraph extends React.Component {
       .range([0, width]);
 
     const y = d3.scaleLinear()
-      .domain([0, .1])
+      .domain([0, 0.08])
       .range([height, 0]);
 
     const xAxis = d3.axisBottom(x);
@@ -78,49 +79,14 @@ class KDEGraph extends React.Component {
       .attr("class", styles.line)
       .attr("d", line);
 
-    // Add legend. For now we only have one element
-    const legendRectSize = 14;
-    const legendSpacing = 4;
-    const color = d3.scaleOrdinal()
-      .domain([""])
-      .range(["red"]);
-
-    const legend = svg.selectAll('.legend')
-      .data(color.domain())
-      .enter()
-      .append('g')
-      .attr('class', 'legend')
-      .attr('transform', (d, i) => {
-        const height = legendRectSize + legendSpacing;
-        const offset =  height * color.domain().length / 2;
-        const horz = 2 * legendRectSize;
-        const vert = 1.1 * height - offset;
-        return 'translate(' + horz + ',' + vert + ')';
-      });
-
-    legend.append('rect')
-      .attr('width', legendRectSize)
-      .attr('height', legendRectSize)
-      .style('fill', color);
-
-    legend.append('text')
-      .attr('x', legendRectSize + legendSpacing)
-      .attr('y', legendRectSize - legendSpacing + 1)
-      .text("Possible outliers");
-
+    addLegend(svg);
 
     function kernelDensityEstimator(kernel, x) {
-      return (sample) => {
-        return x.map((x) => {
-          return [x, d3.mean(sample, (v) => { return kernel(x - v); })];
-        });
-      };
+      return (sample) => x.map((x) => [x, d3.mean(sample, (v) => kernel(x - v))]);
     }
 
     function epanechnikovKernel(scale) {
-      return (u) => {
-        return Math.abs(u /= scale) <= 1 ? .75 * (1 - u * u) / scale : 0;
-      };
+      return (u) => Math.abs(u /= scale) <= 1 ? .75 * (1 - u * u) / scale : 0;
     }
   }
 
