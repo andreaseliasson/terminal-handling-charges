@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./kde-graph.css"
 import * as d3 from "d3";
+import addLegend from "./legend"
 
 class KDEGraph extends React.Component {
   constructor(props) {
@@ -78,35 +79,7 @@ class KDEGraph extends React.Component {
       .attr("class", styles.line)
       .attr("d", line);
 
-    // Add legend. For now we only have one element
-    const legendRectSize = 14;
-    const legendSpacing = 4;
-    const color = d3.scaleOrdinal()
-      .domain(["red"])
-      .range([0]);
-
-    const legend = svg.selectAll(".legend")
-      .data(color.domain())
-      .enter()
-      .append("g")
-      .attr("transform", () => {
-        const height = legendRectSize + legendSpacing;
-        const offset =  height * color.domain().length / 2;
-        const x = 2 * legendRectSize;
-        const y = 1.1 * height - offset;
-        return "translate(" + x + "," + y + ")";
-      });
-
-    legend.append("rect")
-      .attr("width", legendRectSize)
-      .attr("height", legendRectSize)
-      .style("fill", (d) => d);
-
-    legend.append("text")
-      .attr("x", legendRectSize + legendSpacing)
-      .attr("y", legendRectSize - legendSpacing + 2)
-      .text("Possible outliers");
-
+    addLegend(svg);
 
     function kernelDensityEstimator(kernel, x) {
       return (sample) => x.map((x) => [x, d3.mean(sample, (v) => kernel(x - v))]);
