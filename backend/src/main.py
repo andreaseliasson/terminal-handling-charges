@@ -15,11 +15,13 @@ from normalize_currency import (get_unique_currencies,
 app = Flask(__name__)
 
 ACCUMULATED_DATA_FILE = '../data/accumulated_data.json'
+SAMPLE_CHARGES_FILE = '../data/sample_data.json'
+CURRENCY_RATES_FILE = '../data/currency_rates.json'
 
 
 @app.route('/')
 def start():
-    charges = load_json('../data/sample_data.json')
+    charges = load_json(SAMPLE_CHARGES_FILE)
 
     unique_currencies = get_unique_currencies(charges)
     currency_rates = get_currency_exchange_rates_from_api(unique_currencies)
@@ -38,8 +40,8 @@ def submit_new_charge():
     new_charge['value'] = float(new_charge['value'])
     new_charge['supplier_id'] = int(new_charge['supplier_id'])
 
-    sample_charges = load_json('../data/sample_data.json')
-    currency_rates = get_currency_exchange_rates_from_file('../data/currency_rates.json')
+    sample_charges = load_json(SAMPLE_CHARGES_FILE)
+    currency_rates = get_currency_exchange_rates_from_file(CURRENCY_RATES_FILE)
     normalized_sample_charges = normalize_charges(sample_charges, currency_rates)
 
     if os.path.isfile(ACCUMULATED_DATA_FILE):
