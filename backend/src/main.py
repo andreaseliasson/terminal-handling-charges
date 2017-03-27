@@ -1,3 +1,4 @@
+import os.path
 from flask import Flask
 from flask import jsonify
 from flask import request
@@ -12,6 +13,8 @@ from normalize_currency import (get_unique_currencies,
                                 normalize_charges)
 
 app = Flask(__name__)
+
+ACCUMULATED_DATA_FILE = '../data/accumulated_data.json'
 
 
 @app.route('/')
@@ -39,8 +42,11 @@ def submit_new_charge():
     currency_rates = get_currency_exchange_rates_from_file('../data/currency_rates.json')
     normalized_sample_charges = normalize_charges(sample_charges, currency_rates)
 
-    # Create an accumulator to hold new values as to not mutate the original sample data
-    accumulated_charges = create_acc_charges(normalized_sample_charges)
+    if os.path.isfile(ACCUMULATED_DATA_FILE):
+        accumulated_charges = load_json(ACCUMULATED_DATA_FILE)
+    else:
+        # Create an accumulator to hold new values as to not mutate the original sample data
+        accumulated_charges = create_acc_charges(normalized_sample_charges)
 
     saved_new_charge = save_new_charge(normalized_sample_charges, accumulated_charges, new_charge, currency_rates)
 
