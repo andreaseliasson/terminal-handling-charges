@@ -35,13 +35,13 @@ def get_country_charges_with_outliers(charges, country_codes):
 
 def is_outlier(sample_charges, new_charge, currency_rates):
     """
-    Naive way of checking if a new charge is an outlier by using the same algorithm we did when checking
-    for the sample outliers. Based on exploring different outlier detection methods we will use the percentile
+    Somewhat naive way of checking if a new charge is an outlier by using the same algorithm we did when checking
+    for the sample outliers. After exploring different outlier detection methods we will use the percentile
     based algorithm.
     :param sample_charges: the original sample charges
     :param new_charge: a new charge to check
     :param currency_rates: currency rates used to normalize value
-    :return: Boolean indicating whether the new charge is an outlier
+    :return: Boolean indicating if the new charge is an outlier
     """
     charges_df = pd.DataFrame(sample_charges)
 
@@ -60,7 +60,7 @@ def is_outlier(sample_charges, new_charge, currency_rates):
 
 def save_new_charge(sample_charges, acc_charges, new_charge, currency_rates):
     """
-    Save a new charge with a flag indicating if it's an outlier of it's ok (1 == outlier, 0 == ok).
+    Save a new charge with a flag indicating if it's an outlier or if it's ok (1 == outlier, 0 == ok).
     :param sample_charges: the original sample charges
     :param acc_charges: the accumulated charges to append the new charge to
     :param new_charge: new charge to add
